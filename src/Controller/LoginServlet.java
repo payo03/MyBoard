@@ -21,12 +21,12 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		//LoginFormPage에서 입력받은 항목들 가져오기
-		int sid = Integer.parseInt(request.getParameter("sid"));
+		String sid = request.getParameter("sid");
 		String pw = request.getParameter("pw");
 		String rm = request.getParameter("memory");
 		//StudentDao에 parameter로 넘겨줄 값들 세팅
 		Student param = new Student();
-		param.setSid(sid);
+		param.setSid(Integer.parseInt(sid));
 		param.setPassword(pw);
 		
 		Student result = new Student();
@@ -37,6 +37,8 @@ public class LoginServlet extends HttpServlet {
 			session.setAttribute("student", result);	//vo객체로 사용할 student객체를 session영역에 저장
 			if(rm!=null) {	//아이디 기억하기를 통한 session영역 저장
 				session.setAttribute("memory", sid);
+			}else {
+				session.removeAttribute("memory");
 			}
 			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/MainPage.jsp");

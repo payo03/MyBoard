@@ -7,6 +7,7 @@
 	- Vo					VO객체
 
 	- DB 연동					기능
+	
 	SQLConnection			드라이버 로드, MySQL연동, 자원 해제함수 선언
 	
 	- 서블릿 목록				기능					url-pattern
@@ -40,12 +41,12 @@
 
 	
 	화면 구성 jsp목록			기능
-
+	
+	- top.jsp(include)		모든 페이지 상단바
 	1. LoginFormPage		로그인 폼 페이지
 	2. RegisterPage			회원가입 폼 페이지
 	3. MainPage				메인페이지 폼 페이지
-	6. PostingPage			게시판 글쓰는 폼 페이지
-	4. PostList			게시판 보여주는 폼 페이지
-	7. PostUpdating			게시판 수정 폼 페이지
-	6. ViewPost		작성한 글 보여주는 폼 페이지
-	8. top.jsp(include)		모든 페이지 상단바
+	4. PostList				게시판 리스트 보여주는 폼 페이지
+	4-1. PostingPage		게시판 글쓰는 폼 페이지
+	5. ViewPost				게시판 글 보여주는 폼 페이지
+	5-1. PostUpdating		게시판 수정 폼 페이지

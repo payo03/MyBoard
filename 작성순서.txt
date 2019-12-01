@@ -1,19 +1,33 @@
-- WEB-INF/classes폴더 생성후 컴파일 경로 지정
-- lib폴더에 servlet.jar, MySQLConnector.jar파일 위치 및 classPath 등록
+	- WEB-INF/classes폴더 생성후 컴파일 경로 지정
+	- lib폴더에 servlet.jar, MySQLConnector.jar파일 위치 및 classPath 등록
 
-1. MySQL의 table 작성
+	1. MySQL의 table 작성
 	- 참고 : MySQL.txt
 	
-2. VO 클래스 작성
+	2. VO 클래스 작성
 	- MySQL을 토대로 필드 생성
 	
-3. SQLConnection 클래스 작성
+	3. SQLConnection 클래스 작성
 	- DB를 연결하는 conn객체, 자원반환함수 지정
 	
-4. jsp와 Servlet, DAO 작성
+	4. jsp와 Servlet, DAO 작성
 	- 화면을 담당하는 jsp와 데이터를 생성,수정,전달하는 servlet 작성
 	- DB의 데이터와 접촉하는 DAO클래스 작성
 	
-5. 필터작성
+	< jsp파일 >	@ 서블릿
+	
+	순서
+	< LoginFormPage	-	RegisterPage >
+	@ RegisterServlet	-	LoginServlet
+	< MainPage	-	include/top.jsp >
+	@ MainServlet	-	LogoutServlet	-	PostListServlet
+	< PostList >
+	@ PostingServlet
+	< PostingPage >
+	@ PostRegisterServlet	- 	ViewPostServlet
+	< ViewPost.jsp >
+	@ PostDeleteServlet	-	PostUpdatingServlet	-	PostUpdateServlet
+	
+	5. 필터작성
 	- utf-8을 세팅해주는 필터
 	- From이후의 서블릿을 통해서 세션의 로그인 여부를 검사하는 필터

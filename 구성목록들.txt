@@ -1,0 +1,51 @@
+﻿	패키지 목록					기능
+	
+	- Connect				DB연동클래스
+	- Controller			Servlet패키지
+	- Dao					DAO객체
+	- Filter				필터 역활
+	- Vo					VO객체
+
+	- DB 연동					기능
+	SQLConnection			드라이버 로드, MySQL연동, 자원 해제함수 선언
+	
+	- 서블릿 목록				기능					url-pattern
+
+	LoginServlet			로그인 기능				/Login
+	LogoutServlet			로그아웃 기능			/From/Logout
+	MainServlet				메인페이지 기능			/From/Main
+	PostDeleteServlet		게시판 글 삭제 기능		/From/PostDelete
+	PostingServlet			게시판 글쓰기 기능 		/From/Posting
+	PostListServlet			게시판 페이지 이동 기능		/From/PostList
+	PostRegisterServlet		게시판 글 DB 연동기능		/From/PostRegister
+	PostUpdateServlet		게시판 글 수정 DB연동 기능	/From/PostUpdate
+	PostUpdatingServlet		게시판 글 수정 기능		/From/PostUpdating
+	RegisterServlet			회원가입 기능			/Register
+	ViewPostServlet			게시판 글 클릭시 기능		/From/ViewPost
+	
+	- DAO객체 목록				기능
+
+	PostDAO					게시판-DB연동 기능
+	StudentDAO				회원-DB연동 기능
+
+	- 필터 목록					기능					url-pattern
+	
+	EncodingFilter			한글 설정 기능			/*
+	LoginCheckFilter		로그인 되어있는지 확인기능	/From/*
+
+	- VO객체 목록				기능
+
+	Post					게시판의 객체
+	Student					글쓰기 기능을 가진 객체
+
+	
+	화면 구성 jsp목록			기능
+
+	1. LoginFormPage		로그인 폼 페이지
+	2. RegisterPage			회원가입 폼 페이지
+	3. MainPage				메인페이지 폼 페이지
+	6. PostingPage			게시판 글쓰는 폼 페이지
+	4. PostList			게시판 보여주는 폼 페이지
+	7. PostUpdating			게시판 수정 폼 페이지
+	6. ViewPost		작성한 글 보여주는 폼 페이지
+	8. top.jsp(include)		모든 페이지 상단바

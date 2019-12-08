@@ -21,7 +21,7 @@ public class LoginCheckFilter implements Filter {
 		if(session.getAttribute("student")!=null) {	//로그인 세션 검사
 			chain.doFilter(request, response);
 		}else {	//세션 없다면 첫 화면으로 복귀
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/LoginFormPage");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/LoginFormPage.jsp");
 			dispatcher.forward(request, response);
 		}
 	}

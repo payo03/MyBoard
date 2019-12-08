@@ -11,7 +11,14 @@ public class Student implements Serializable{
 	private String password;
 	private int grade;
 	private String subject;
+	private int manager;
 	
+	public int getManager() {
+		return manager;
+	}
+	public void setManager(int manager) {
+		this.manager = manager;
+	}
 	public int getSid() {
 		return sid;
 	}

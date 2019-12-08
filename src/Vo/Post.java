@@ -12,7 +12,14 @@ public class Post implements Serializable{
 	private String postingDate;
 	private int sid;
 	private int available;	//available변수를 통해서 DB의 post를 삭제하지 않으면서 보여줄 post를 출력
+	private int manager;
 	
+	public int getManager() {
+		return manager;
+	}
+	public void setManager(int manager) {
+		this.manager = manager;
+	}
 	public int getPostNo() {
 		return postNo;
 	}

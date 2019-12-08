@@ -23,12 +23,19 @@ public class PostUpdatingServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		//로그인 사용자의 student객체(<작성자-로그인 사용자>와구별하기 위해 받아온 객체), 수정할 postNo 받아오기
 		Student student = (Student) session.getAttribute("student");
+		
 		int sid = student.getSid();
 		int postNo = Integer.parseInt(request.getParameter("PostNo"));
+		int manager = student.getManager();
 		//Dao에 parameter로 넘겨줄 post데이터 세팅
 		Post param = new Post();
-		param.setSid(sid);
-		param.setPostNo(postNo);
+		if(manager==0) {
+			param.setSid(sid);
+			param.setPostNo(postNo);
+		}else {
+			param.setPostNo(postNo);
+			param.setManager(manager);
+		}
 		
 		Post result = new Post();
 		PostDao post = new PostDao();

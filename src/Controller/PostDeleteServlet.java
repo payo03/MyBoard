@@ -21,23 +21,30 @@ public class PostDeleteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		PrintWriter script = response.getWriter();
-		int confirm;
+		
+		int postNo = Integer.parseInt(request.getParameter("PostNo"));
 		
 		Student student = (Student)session.getAttribute("student");
 		int sid = student.getSid();
-		int postNo = Integer.parseInt(request.getParameter("PostNo"));
-
-		Post param = new Post();
-		param.setSid(sid);
-		param.setPostNo(postNo);
+		int manager = student.getManager();
 		
+		Post param = new Post();
 		PostDao post = new PostDao();
 		
-		confirm = post.delete(param);
+		if(manager==0) {
+			param.setSid(sid);
+			param.setPostNo(postNo);
+		}else {
+			param.setPostNo(postNo);
+			param.setManager(manager);
+		}
+		
+		int confirm = post.delete(param);
+			
 		if(confirm == 1) {
 			script.println("<script>");
 			script.println("alert(\"삭제 완료!\");");
-			script.println("window.location = '" + request.getContextPath() + "/From/PostList'");
+				script.println("window.location = '" + request.getContextPath() + "/From/PostList'");
 			script.println("</script>");
 		}else {
 			script.println("<script>");

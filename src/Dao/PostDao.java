@@ -14,7 +14,6 @@ public class PostDao {
 	private static Connection conn = null;
 	private static PreparedStatement pstmt = null;
 	private static ResultSet rs = null;
-	
 	//자원 반납하는 함수 호출
 	private static void close() {
 		SQLConnection.close(rs);
@@ -22,8 +21,13 @@ public class PostDao {
 		SQLConnection.close(conn);
 	}
 
-	public List<Post> select() {	//DB에 저장된 POST를 불러오기
-		String query = "SELECT * FROM post WHERE AVAILABLE = 1 ORDER BY POST_NO desc";
+	public List<Post> select(int manager) {	//DB에 저장된 POST를 불러오기
+		String query = null;
+		if(manager==0) {
+			query = "SELECT * FROM post WHERE AVAILABLE = 1 ORDER BY POST_NO desc";
+		}else {
+			query = "SELECT * FROM post ORDER BY POST_NO desc";
+		}
 		List<Post> post = new ArrayList<>();
 		conn = SQLConnection.getConnection();
 		
@@ -40,6 +44,7 @@ public class PostDao {
 				param.setPostingDate(rs.getString("POSTING_DATE"));
 				param.setContent(rs.getString("CONTENT"));
 				param.setAvailable(rs.getInt("AVAILABLE"));
+				param.setManager(rs.getInt("MANAGER"));
 				
 				post.add(param);
 			}
@@ -52,7 +57,13 @@ public class PostDao {
 	}
 
 	public void register(Post param) {	//Post작성하는 함수
-		String query = "INSERT INTO post VALUES(?,?,?,SYSDATE(),?,1)";	//작성날짜는 SYSDATE()함수를 통해 작성하는 시각 받아오기
+		int manager = param.getManager();
+		String query = null;
+		if(manager==0) {
+			query = "INSERT INTO post VALUES(?,?,?,SYSDATE(),?,1,0)";	//작성날짜는 SYSDATE()함수를 통해 작성하는 시각 받아오기
+		}else {
+			query = "INSERT INTO post VALUES(?,?,?,SYSDATE(),?,1,1)";
+		}
 		conn = SQLConnection.getConnection();
 		
 		try {
@@ -122,7 +133,13 @@ public class PostDao {
 	}
 
 	public int delete(Post param) {
-		String query = "UPDATE post set AVAILABLE = 0 WHERE POST_NO = ? and SID = ?";
+		String query = null;
+		int manager = param.getManager();
+		if(manager==1) {
+			query = "DELETE FROM post WHERE POST_NO=?";
+		}else {
+			query = "UPDATE post set AVAILABLE = 0 WHERE POST_NO = ? and SID = ?";
+		}
 		conn = SQLConnection.getConnection();
 		int confirm = 0;
 		
@@ -130,7 +147,9 @@ public class PostDao {
 			pstmt = conn.prepareStatement(query);
 			
 			pstmt.setInt(1, param.getPostNo());
-			pstmt.setInt(2, param.getSid());
+			if(manager==0) {
+				pstmt.setInt(2, param.getSid());
+			}
 			
 			confirm = pstmt.executeUpdate();
 		}catch(Exception e) {
@@ -142,7 +161,13 @@ public class PostDao {
 	}
 
 	public Post getPost(Post param) {	//parameter로 넘겨받은 postNo와 sid에 해당하는 post객체 반환 함수
-		String query = "SELECT * FROM post WHERE POST_NO = ? and SID = ?";	//PostNo와 SID에 parameter로 넘겨받은 값 세팅
+		int manager = param.getManager();
+		String query = null;
+		if(manager==0) {
+			query = "SELECT * FROM post WHERE POST_NO = ? and SID = ?";	//PostNo와 SID에 parameter로 넘겨받은 값 세팅
+		}else {
+			query = "SELECT * FROM post WHERE POST_NO = ?"; 
+		}
 		conn=SQLConnection.getConnection();
 		Post post = new Post();
 		
@@ -150,7 +175,9 @@ public class PostDao {
 			pstmt = conn.prepareStatement(query);
 			
 			pstmt.setInt(1, param.getPostNo());
-			pstmt.setInt(2, param.getSid());
+			if(manager==0) {
+				pstmt.setInt(2, param.getSid());
+			}
 			
 			rs = pstmt.executeQuery();
 			/*
@@ -190,6 +217,36 @@ public class PostDao {
 			close();
 		}
 		
+	}
+
+	public List<Post> find(int sid) {
+		List<Post> post = new ArrayList<>();
+		conn = SQLConnection.getConnection();
+		String query = "SELECT * FROM post WHERE SID = ? AND AVAILABLE = 1";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, sid);
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				Post param = new Post();
+				
+				param.setTitle(rs.getString("TITLE"));
+				param.setSid(rs.getInt("SID"));
+				param.setContent(rs.getString("CONTENT"));
+				param.setPostingDate(rs.getString("POSTING_DATE"));
+				param.setPostNo(rs.getInt("POST_NO"));
+				param.setAvailable(rs.getInt("AVAILABLE"));
+				param.setManager(rs.getInt("MANAGER"));
+				
+				post.add(param);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			close();
+		}
+		return post;
 	}
 	
 }

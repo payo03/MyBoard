@@ -42,7 +42,7 @@ public class StudentDao {
 	}
 	
 	public void register(Student param) {	//학생을 등록하는 함수
-		String query = "INSERT INTO student VALUES (?,?,?,?,?)";	//INSERT문 실행
+		String query = "INSERT INTO student VALUES (?,?,?,?,?,0)";	//INSERT문 실행
 		conn = SQLConnection.getConnection();
 		
 		try {
@@ -80,6 +80,7 @@ public class StudentDao {
 				student.setName(rs.getString("NAME"));
 				student.setGrade(rs.getInt("GRADE"));
 				student.setSubject(rs.getString("SUBJECT"));
+				student.setManager(rs.getInt("MANAGER"));
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -108,5 +109,25 @@ public class StudentDao {
 			close();
 		}
 		return name;	//NAME값 반환
+	}
+
+	public int find(String writer) {
+		conn = SQLConnection.getConnection();
+		String query = "SELECT SID FROM student WHERE NAME = ?";
+		int sid = 0;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, writer);
+			
+			rs = pstmt.executeQuery();
+			if(rs.first()) {
+				sid = rs.getInt("SID");
+			}
+		}catch(Exception e) {
+			
+		}finally {
+			close();
+		}
+		return sid;
 	}
 }

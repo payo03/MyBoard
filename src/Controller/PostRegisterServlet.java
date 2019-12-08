@@ -24,6 +24,7 @@ public class PostRegisterServlet extends HttpServlet {
 		//student세션을 통해서 로그인 하고있는 학생의 SID를 획득
 		Student student = (Student)session.getAttribute("student");
 		int sid = student.getSid();
+		int manager = student.getManager();
 		//사용자가 입력한 제목, 내용을 받아오기
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
@@ -36,6 +37,7 @@ public class PostRegisterServlet extends HttpServlet {
 		param.setTitle(title);
 		param.setContent(content);
 		param.setSid(sid);
+		param.setManager(manager);
 		
 		try {	//작성한 Post를 Dao를 통해 등록
 			post.register(param);

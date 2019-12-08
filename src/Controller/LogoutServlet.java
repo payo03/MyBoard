@@ -17,6 +17,7 @@ public class LogoutServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		session.removeAttribute("student");	//아이디 기억, 학생(로그인 데이터) 세션 중 학생 삭제
+		session.removeAttribute("manager");
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/LoginFormPage.jsp");
 		dispatcher.forward(request, response);

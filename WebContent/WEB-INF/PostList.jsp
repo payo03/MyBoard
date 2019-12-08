@@ -17,25 +17,40 @@
 <table border="1" align="center" width="70%">
 	<thead>
 		<tr>
-			<td width="15%"> 글 번호 </td>
-			<td width="20%"> 제목 </td>
-			<td width="20%"> 작성자 </td>
-			<td width="25%"> 작성 날짜 </td>
+			<td width="20%" align="center"> 글 번호 </td>
+			<td width="30%" align="center"> 제목 </td>
+			<td width="20%" align="center"> 작성자 </td>
+			<td width="30%" align="center"> 작성 날짜 </td>
 		</tr>
 	</thead>
 	<tbody>	<!-- for문을 통해 해당하는 순번에 따라 배치 -->
 <%		for(int i=0; i<postList.size(); i++) { %>
 			<tr>
-				<td> <%= postList.get(i).getPostNo() %> </td>
-				<td width="20%"> <!-- 게시글을 확인할수 있도록 링크연결, 파라미터로 Post 순번을 넘겨줌 -->
+<%				if(postList.get(i).getAvailable()==0) {	%>
+				<td align="center" style="color:red"> <%= postList.get(i).getPostNo() %>
+<%				}else { %>
+<%					if(postList.get(i).getManager()==0) { %>
+						<td align="center" style="color:green"> <%= postList.get(i).getPostNo() %>
+<%					}else {	 %>
+						<td align="center" style="color:orange"> <%= postList.get(i).getPostNo() %>
+<%					} %>
+<%				} %>
+				</td>
+				<td align="center"> <!-- 게시글을 확인할수 있도록 링크연결, 파라미터로 Post 순번을 넘겨줌 -->
 					<a href="${pageContext.request.contextPath }/From/ViewPost?PostNo=<%= postList.get(i).getPostNo() %>"> <%= postList.get(i).getTitle() %> </a> 
 				</td>	<!-- 작성한 SID를 외래키로 받아서 작성자를 보기 -->
-				<td width="20%"> <%= StudentDao.getWriter(postList.get(i).getSid()) %> </td>
-				<td width="25%"> <%= postList.get(i).getPostingDate() %> </td>
+				<td align="center"> <%= StudentDao.getWriter(postList.get(i).getSid()) %> </td>
+				<td align="center"> <%= postList.get(i).getPostingDate() %> </td>
 			</tr>
 <%		} %>
 	</tbody>
 </table><br>
+<form action="${pageContext.request.contextPath }/From/Find" method="post">
+	<div align="center">
+		<input type="text" name="writer" placeholder="작성자" size="15"/> &nbsp
+		<input type="submit" value="검색" />
+	</div>
+</form>
 <div align="center">	<!-- 글 쓰기 링크 연결, PostingServlet호출 -->
 	<a href="${pageContext.request.contextPath }/From/Posting" >글 작성하기</a>
 </div>

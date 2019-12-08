@@ -10,31 +10,33 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import Dao.PostDao;
+import Dao.StudentDao;
 import Vo.Post;
 
-@WebServlet("/From/PostList")
-public class PostListServlet extends HttpServlet {
+@WebServlet("/From/Find")
+public class FindServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+       
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		int manager = (int)session.getAttribute("manager");
-		
-		//PostList를 가져오기 위한 세팅
-		PostDao post = new PostDao();
-		List<Post> postList = new ArrayList<>();
-		//List형식으로 select해서 반환받기
-		postList = post.select(manager);
-		
-		if(postList!=null) {	//게시글이 존재하면 해당하는 리스트를 request영역에 저장
-			request.setAttribute("PostList", postList);
+		String writer = request.getParameter("writer");
+		if(writer!="") {
+			StudentDao student = new StudentDao();
+			
+			int sid = student.find(writer);
+			
+			PostDao post = new PostDao();
+			List<Post> result = new ArrayList<>();
+			result = post.find(sid);
+			
+			request.setAttribute("PostList", result);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/PostList.jsp");
+			dispatcher.forward(request, response);
+		}else {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/From/PostList");
+			dispatcher.forward(request, response);
 		}
-		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/PostList.jsp");
-		dispatcher.forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

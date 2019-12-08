@@ -1,3 +1,6 @@
+<%@page import="Vo.Answer"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
 <%@ page import="Dao.StudentDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <jsp:useBean id="post" class="Vo.Post" scope="request" />
@@ -5,6 +8,7 @@
 <%	//해당 post의 외래키(SID)를 통해 student의 NAME 받아오기
 	String name = StudentDao.getWriter(post.getSid());
 	int manager = student.getManager();
+	List<Answer> replyList = (ArrayList<Answer>)request.getAttribute("reply");
 %>
 <!DOCTYPE html>
 <html>
@@ -32,6 +36,43 @@
 		<td> <%= name %> </td>
 	</tr>
 </table><br>
+<form action="${pageContext.request.contextPath }/From/AnswerRegister" method="post">
+	<div align="center">
+		<input type="text" size="50" name="content" placeholder="댓글 추가"/>
+		<input type="hidden" name="postNo" value="<%= post.getPostNo() %>" />
+		<input type="submit" value="등록" />
+	</div>
+</form><br>
+<form action="${pageContext.request.contextPath }/From/AnswerChoice" method="post">
+<table border="1" align="center" width="50%">
+	<thead>
+		<tr>
+			<td> 작성자 </td>
+			<td width="65%"> 내용 </td>
+			<td width="25%"> 등록일자 </td>
+		</tr>
+	</thead>
+	<tbody>
+<%	for(int i=0; i<replyList.size(); i++) { %>
+		<tr>
+			<td rowspan="2"> <%= StudentDao.getWriter(replyList.get(i).getSid()) %>	</td>
+			<td width="65%"> <%= replyList.get(i).getContent() %></td>
+			<td width="25%" rowspan="2"> <%= replyList.get(i).getAnswerDate() %>
+		</tr>
+		<tr>
+<%			if( replyList.get(i).getSid()==student.getSid() || manager==1) {%>
+				<td align="right"> 
+					<input type="hidden" name="answerNo" value="<%= replyList.get(i).getAnswerNo()%>" />
+					<input type="hidden" name="postNo" value="<%= post.getPostNo() %>" />
+					<input type="submit" name="update" value="수정" />
+					<input type="submit" name="delete" value="삭제" /> 
+				</td>
+<%			} %>
+		</tr>
+<%	} %>
+	</tbody>
+</table>
+</form>
 <div align="center">	<!-- 목록으로 돌아가는 PostListServlet호출 -->
 	<a href="${pageContext.request.contextPath }/From/PostList"> 목록 </a>&nbsp
 	<!-- 세션에 저장된 student의 name(로그인한 사용자)이 post의 name(작성자)과 같다면 수정,삭제항목 가능 -->

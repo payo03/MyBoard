@@ -1,7 +1,7 @@
 package Controller;
 
 import java.io.IOException;
-import java.util.List;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,36 +9,34 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import Dao.AnswerDao;
-import Dao.PostDao;
+import Dao.StudentDao;
 import Vo.Answer;
-import Vo.Post;
+import Vo.Student;
 
-@WebServlet("/From/ViewPost")
-public class ViewPostServlet extends HttpServlet {
+@WebServlet("/From/AnswerRegister")
+public class AnswerRegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//PostList에서 제목을 눌렀을 때 해당하는 PostNo를 받아오기
-		int postNo = Integer.parseInt(request.getParameter("PostNo"));
+		HttpSession session = request.getSession();
 		
-		PostDao post = new PostDao();
-		Post result = new Post();
-		//postNo를 통해서 해당하는 post를 받아오기
-		result = post.view(postNo);
+		Student student = (Student)session.getAttribute("student");
+		int sid = student.getSid();
+		int postNo = Integer.parseInt(request.getParameter("postNo"));
+		String content = request.getParameter("content");
+		
+		Answer param = new Answer();
+		param.setSid(sid);
+		param.setPostNo(postNo);
+		param.setContent(content);
 		
 		AnswerDao answer = new AnswerDao();
-		List<Answer> reply = answer.get(postNo);
-
-		if(result !=null) {	//post객체를 받아오면 해당하는 객체를 request영역에 저장
-			request.setAttribute("post", result);
-		}
-		if(reply!=null) {
-			request.setAttribute("reply", reply);
-		}
+		answer.register(param);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/ViewPost.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/From/ViewPost?PostNo="+postNo);
 		dispatcher.forward(request, response);
 	}
 

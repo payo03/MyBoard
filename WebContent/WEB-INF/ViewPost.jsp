@@ -9,6 +9,7 @@
 	String name = StudentDao.getWriter(post.getSid());
 	int manager = student.getManager();
 	List<Answer> replyList = (ArrayList<Answer>)request.getAttribute("reply");
+	String update = (String)request.getAttribute("update");
 %>
 <!DOCTYPE html>
 <html>
@@ -56,7 +57,11 @@
 <%	for(int i=0; i<replyList.size(); i++) { %>
 		<tr>
 			<td rowspan="2"> <%= StudentDao.getWriter(replyList.get(i).getSid()) %>	</td>
-			<td width="65%"> <%= replyList.get(i).getContent() %></td>
+<%			if(update!=null) { %>
+
+<%			}else { %>
+				<td width="65%"> <%= replyList.get(i).getContent() %></td>
+<%			} %>
 			<td width="25%" rowspan="2"> <%= replyList.get(i).getAnswerDate() %>
 		</tr>
 		<tr>

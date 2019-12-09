@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import Dao.PostDao;
+import Dao.StudentDao;
 import Vo.Post;
 
 @WebServlet("/From/PostList")
@@ -21,16 +22,25 @@ public class PostListServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		StudentDao student = new StudentDao();
+		
+		String writer = request.getParameter("writer");
 		int manager = (int)session.getAttribute("manager");
 		
-		//PostList를 가져오기 위한 세팅
-		PostDao post = new PostDao();
-		List<Post> postList = new ArrayList<>();
-		//List형식으로 select해서 반환받기
-		postList = post.select(manager);
+		Post param = new Post();
+		if(writer!=null) {
+			int sid = student.find(writer);
+			param.setSid(sid);
+		}
+		param.setManager(manager);
 		
-		if(postList!=null) {	//게시글이 존재하면 해당하는 리스트를 request영역에 저장
-			request.setAttribute("PostList", postList);
+		PostDao post = new PostDao();
+		List<Post> result = new ArrayList<>();
+
+		result = post.select(param);
+		
+		if(result!=null) {	//게시글이 존재하면 해당하는 리스트를 request영역에 저장
+			request.setAttribute("PostList", result);
 		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/PostList.jsp");

@@ -26,7 +26,7 @@ public class AnswerChoiceServlet extends HttpServlet {
 		if(de!=null) {
 			answer.delete(answerNo);
 		}else {
-			
+			request.setAttribute("update", answerNo);
 		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/From/ViewPost?PostNo="+postNo);

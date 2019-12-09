@@ -45,7 +45,7 @@
 <%		} %>
 	</tbody>
 </table><br>
-<form action="${pageContext.request.contextPath }/From/Find" method="post">
+<form action="${pageContext.request.contextPath }/From/PostList" method="post">
 	<div align="center">
 		<input type="text" name="writer" placeholder="작성자" size="15"/> &nbsp
 		<input type="submit" value="검색" />

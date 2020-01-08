@@ -8,36 +8,23 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import Dao.PostDao;
 import Vo.Post;
-import Vo.Student;
 
 @WebServlet("/From/PostDelete")
 public class PostDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
 		PrintWriter script = response.getWriter();
 		
 		int postNo = Integer.parseInt(request.getParameter("PostNo"));
 		
-		Student student = (Student)session.getAttribute("student");
-		int sid = student.getSid();
-		int manager = student.getManager();
-		
 		Post param = new Post();
-		PostDao post = new PostDao();
+		PostDao post = new PostDao(request, response);
 		
-		if(manager==0) {
-			param.setSid(sid);
-			param.setPostNo(postNo);
-		}else {
-			param.setPostNo(postNo);
-			param.setManager(manager);
-		}
+		param.setPostNo(postNo);
 		
 		int confirm = post.delete(param);
 			

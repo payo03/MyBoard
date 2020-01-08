@@ -23,7 +23,7 @@ public class ViewPostServlet extends HttpServlet {
 		//PostList에서 제목을 눌렀을 때 해당하는 PostNo를 받아오기
 		int postNo = Integer.parseInt(request.getParameter("PostNo"));
 		
-		PostDao post = new PostDao();
+		PostDao post = new PostDao(request, response);
 		Post result = new Post();
 		//postNo를 통해서 해당하는 post를 받아오기
 		result = post.view(postNo);

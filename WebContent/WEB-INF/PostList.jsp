@@ -11,28 +11,33 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	.delete {text-decoration: line-through;}
+	.notice {color:red; text-decoration: underline;}
+</style>
 </head>
 <body>
 <jsp:include page="include/top.jsp" /><br>	<!-- table영역에 List를 뿌려주기 -->
 <table border="1" align="center" width="70%">
 	<thead>
 		<tr>
-			<td width="20%" align="center"> 글 번호 </td>
+			<td width="15%" align="center"> 글 번호 </td>
 			<td width="30%" align="center"> 제목 </td>
 			<td width="20%" align="center"> 작성자 </td>
-			<td width="30%" align="center"> 작성 날짜 </td>
+			<td width="25%" align="center"> 작성/수정 날짜 </td>
+			<td width="10%" align="center"> 조회수 </td>
 		</tr>
 	</thead>
 	<tbody>	<!-- for문을 통해 해당하는 순번에 따라 배치 -->
 <%		for(int i=0; i<postList.size(); i++) { %>
 			<tr>
 <%				if(postList.get(i).getAvailable()==0) {	%>
-				<td align="center" style="color:red"> <%= postList.get(i).getPostNo() %>
+				<td align="center" class="delete"> <%= postList.get(i).getPostNo() %>
 <%				}else { %>
-<%					if(postList.get(i).getManager()==0) { %>
-						<td align="center" style="color:green"> <%= postList.get(i).getPostNo() %>
+<%					if(postList.get(i).getNotice()==null) { %>
+						<td align="center"> <%= postList.get(i).getPostNo() %>
 <%					}else {	 %>
-						<td align="center" style="color:orange"> <%= postList.get(i).getPostNo() %>
+						<td align="center" class="notice"> <%= postList.get(i).getPostNo() %>
 <%					} %>
 <%				} %>
 				</td>
@@ -40,7 +45,8 @@
 					<a href="${pageContext.request.contextPath }/From/ViewPost?PostNo=<%= postList.get(i).getPostNo() %>"> <%= postList.get(i).getTitle() %> </a> 
 				</td>	<!-- 작성한 SID를 외래키로 받아서 작성자를 보기 -->
 				<td align="center"> <%= StudentDao.getWriter(postList.get(i).getSid()) %> </td>
-				<td align="center"> <%= postList.get(i).getPostingDate() %> </td>
+				<td align="center"> <%= postList.get(i).getPostingDate().substring(0,11) + postList.get(i).getPostingDate().substring(11,13) +"시" + postList.get(i).getPostingDate().substring(14,16) +"분" %> </td>
+				<td align="center"> <%= postList.get(i).getClick() %> </td>
 			</tr>
 <%		} %>
 	</tbody>

@@ -36,7 +36,6 @@ public class LoginServlet extends HttpServlet {
 		
 		if(result != null && result.getName()!=null) {	//SID와 PW에 해당하는 값이 존재한다면 if절 실행
 			session.setAttribute("student", result);	//vo객체로 사용할 student객체를 session영역에 저장
-			session.setAttribute("manager", result.getManager());	//관리자모드
 			if(rm!=null) {	//아이디 기억하기를 통한 session영역 저장
 				session.setAttribute("memory", sid);
 			}else {

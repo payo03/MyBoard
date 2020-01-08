@@ -29,7 +29,7 @@ public class PostUpdateServlet extends HttpServlet {
 		param.setTitle(title);
 		param.setContent(content);
 		
-		PostDao post = new PostDao();
+		PostDao post = new PostDao(request, response);
 		
 		if(title!=null) {	//URL을 통해서 다른 postNo를 세팅한 경우
 			post.update(param);

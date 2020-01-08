@@ -10,7 +10,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import Dao.PostDao;
 import Dao.StudentDao;
@@ -21,20 +20,17 @@ public class PostListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
 		StudentDao student = new StudentDao();
 		
 		String writer = request.getParameter("writer");
-		int manager = (int)session.getAttribute("manager");
 		
 		Post param = new Post();
 		if(writer!=null) {
 			int sid = student.find(writer);
 			param.setSid(sid);
 		}
-		param.setManager(manager);
 		
-		PostDao post = new PostDao();
+		PostDao post = new PostDao(request, response);
 		List<Post> result = new ArrayList<>();
 
 		result = post.select(param);

@@ -82,4 +82,20 @@ public class AnswerDao {
 		}
 	}
 
+	public void update(Answer param) {
+		String query = "UPDATE answer SET CONTENT = ? WHERE ANSWER_NO = ?";
+		conn = SQLConnection.getConnection();
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, param.getContent());
+			pstmt.setInt(2, param.getAnswerNo());
+			
+			pstmt.executeUpdate();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			close();
+		}
+	}
+
 }

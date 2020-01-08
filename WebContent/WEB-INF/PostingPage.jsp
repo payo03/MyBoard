@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<jsp:useBean id="student" class="Vo.Student" scope="session" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +18,12 @@
 			</td>
 		</tr>
 		<tr>
-			<td align="center"> <input type="submit" value="작성" /> </td>
+			<td align="center">
+<%			if(student.getManager()==1) { %>
+				<input type="checkbox" name="notice" value="NOTICE" />공지글<br>
+<% 			}	%>
+				<input type="submit" value="작성" /> 
+			</td>
 		</tr>
 	</table>
 </form>

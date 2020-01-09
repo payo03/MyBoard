@@ -75,23 +75,32 @@
 <%			} %>
 			</form>
 <%	
-			Calendar nowCal = Calendar.getInstance();
-			int year = nowCal.get(Calendar.YEAR);
-			int month = nowCal.get(Calendar.MONTH);
-			int day = nowCal.get(Calendar.DATE);
-			int hour = nowCal.get(Calendar.HOUR);
-			int min = nowCal.get(Calendar.MINUTE);
-			int sec = nowCal.get(Calendar.SECOND);
+			Date reply_date = sdf.parse(replyList.get(i).getAnswerDate());
 			
-			int reply_year = Integer.parseInt(replyList.get(i).getAnswerDate().substring(0, 4));
-			int reply_month = Integer.parseInt(replyList.get(i).getAnswerDate().substring(5, 7));
-			int reply_day = Integer.parseInt(replyList.get(i).getAnswerDate().substring(8, 10));
-			int reply_hour = Integer.parseInt(replyList.get(i).getAnswerDate().substring(11,13));
-			int reply_min = Integer.parseInt(replyList.get(i).getAnswerDate().substring(14,16));
-			int reply_sec = Integer.parseInt(replyList.get(i).getAnswerDate().substring(17,19));
+			long diff = nowTime.getTime() - reply_date.getTime();
+			long sec = diff / 1000;
+			long min = sec / 60;
+			long hour = min / 60;
+			long day = hour / 24;
+			long month = day / 30;
+			long year = month / 12;
 %>	
 			<td>
-			
+<%				
+				if(year > 0) {
+					out.println(year +"년 전");
+				}else if(month > 0){
+					out.println(month+"달 전");
+				}else if(day > 0){
+					out.println(day+"일 전");
+				}else if(hour > 0) { 
+					out.println(hour+"시간 전");
+				}else if(min > 0) { 
+					out.println(min+"분 전");
+				}else { 
+					out.println(sec+"초 전");
+				} 
+%>
 			</td>
 		</tr>
 <%	} %>

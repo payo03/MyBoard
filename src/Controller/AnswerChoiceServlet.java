@@ -20,7 +20,8 @@ public class AnswerChoiceServlet extends HttpServlet {
 		String content = request.getParameter("content");
 		String up = request.getParameter("update");
 		String de = request.getParameter("delete");
-		
+
+		System.out.println(up);
 		int postNo = Integer.parseInt(request.getParameter("postNo"));
 		int answerNo = Integer.parseInt(request.getParameter("answerNo"));
 		
@@ -32,9 +33,9 @@ public class AnswerChoiceServlet extends HttpServlet {
 		if(de!=null) {
 			answer.delete(answerNo);
 		}
-		if(up!=null) {
+		if(up!=null) {		//수정하였을 경우, null값을 세팅해주어서 다시 초기 게시글을 들어갔을때의 모습으로 변경
 			request.setAttribute("update", null);
-		}else {
+		}else {				//up가 null일경우, 초기 수정버튼을 누를시 해당 댓글의 번호를 update변수로 넘김
 			request.setAttribute("update", answerNo);
 		}
 		

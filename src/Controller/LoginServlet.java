@@ -41,7 +41,7 @@ public class LoginServlet extends HttpServlet {
 			}else {
 				session.removeAttribute("memory");
 			}
-			
+			//로그인 이후부터는 From/~ 의 URL을 가짐
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/From/Main");
 			dispatcher.forward(request, response);
 		}else {	//SID와 PW에 해당하는 값이 없다면 else절 실행

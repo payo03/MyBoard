@@ -9,26 +9,18 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import Dao.PostDao;
 import Vo.Post;
-import Vo.Student;
 
 @WebServlet("/From/PostUpdating")
 public class PostUpdatingServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		//로그인 사용자의 student객체(<작성자-로그인 사용자>와구별하기 위해 받아온 객체), 수정할 postNo 받아오기
-		Student student = (Student) session.getAttribute("student");
-		
 		int postNo = Integer.parseInt(request.getParameter("PostNo"));
-		int sid = student.getSid();
 		//Dao에 parameter로 넘겨줄 post데이터 세팅
 		Post param = new Post();
-		param.setSid(sid);
 		param.setPostNo(postNo);
 		
 		Post result = new Post();

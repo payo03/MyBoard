@@ -34,7 +34,7 @@ public class ViewPostServlet extends HttpServlet {
 		if(result !=null) {	//post객체를 받아오면 해당하는 객체를 request영역에 저장
 			request.setAttribute("post", result);
 		}
-		if(reply!=null) {
+		if(reply!=null) {	//댓글이 있다면 해당하는 객체를 request영역에 저장
 			request.setAttribute("reply", reply);
 		}
 		

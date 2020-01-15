@@ -61,6 +61,7 @@ public class StudentDao {
 			close();
 		}
 	}
+	
 	public Student login(Student param) {	//Parameter로 SID와 PW를 넘겨받아서 해당 데이터가 있는지 조사하는 함수
 		String query = "SELECT * FROM student WHERE SID = ? and PASSWORD = ?";
 		conn = SQLConnection.getConnection();

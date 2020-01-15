@@ -14,7 +14,7 @@
 </head>
 <body>
 <jsp:include page="include/top.jsp" /><br>
-<table border="1" width="50%" align="center">	<!-- 제목, 내용, 작성일자를 자바빈즈 propert를 통해 출력 -->
+<table border="1" width="50%" align="center">	<!-- 제목, 내용, 작성일자를 자바빈즈 property를 통해 출력 -->
 	<tr align="center">
 		<td width="20%"> 제목  </td>
 		<td> <jsp:getProperty name="post" property="title" /> </td>
@@ -32,7 +32,7 @@
 		<td> <%= name %> </td>
 	</tr>
 </table><br>
-<jsp:include page="include/reply.jsp" />
+<jsp:include page="include/reply.jsp" /> <!-- 댓글jsp를 include해놓음 -->
 <div align="center">	<!-- 목록으로 돌아가는 PostListServlet호출 -->
 	<a href="${pageContext.request.contextPath }/From/PostList"> 목록 </a>&nbsp
 	<!-- 세션에 저장된 student의 name(로그인한 사용자)이 post의 name(작성자)과 같다면 수정,삭제항목 가능 -->

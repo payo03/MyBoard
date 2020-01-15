@@ -36,7 +36,7 @@ public class PostUpdateServlet extends HttpServlet {
 			
 			script.println("<script>");
 			script.println("alert(\"수정 완료!\");");
-			script.println("window.location = '" + request.getContextPath() + "/From/ViewPost?PostNo="+postNo+"'");
+			script.println("window.location = '" + request.getContextPath() + "/From/ViewPost?PostNo="+postNo+"'");	//수정 완료되면 해당 게시글을 다시 볼 수 있도록 서블릿 호출
 			script.println("</script>");
 		}else{	//postNo를 통해 접근하면 parameter는 null이 되기때문에 else절 실행
 			script.println("<script>");

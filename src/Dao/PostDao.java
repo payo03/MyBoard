@@ -58,7 +58,7 @@ public class PostDao {
 			
 			if(param.getSid()!=0) {
 				pstmt.setInt(1, param.getSid());
-			}
+			}	//검색을 했을경우 sid를 파라미터로 받는다
 			
 			rs = pstmt.executeQuery();
 			while(rs.next()) {	//rs는 POST 목록
@@ -84,7 +84,7 @@ public class PostDao {
 	}
 
 	public void register(Post param) {	//Post작성하는 함수
-		String query = "INSERT INTO post VALUES(?,?,?,SYSDATE(),?,1,?,0)";
+		String query = "INSERT INTO post VALUES(?,?,?,SYSDATE(),?,1,?,0)";	//MySQL문법의 SYSDATE()는 현재 시각, AVAILABLE=1, CLICK=0의 default
 		conn = SQLConnection.getConnection();
 		
 		try {
@@ -129,7 +129,7 @@ public class PostDao {
 	}
 
 	public Post view(int postNo) {	//postNo를 parameter로 받아서 해당하는 post를 반환하는 함수e
-		String update = "UPDATE post SET CLICK=(SELECT MAX(CLICK)+1) WHERE POST_NO=?";
+		String update = "UPDATE post SET CLICK=(SELECT MAX(CLICK)+1) WHERE POST_NO=?";	//게시글 클릭시 조회수도 +1되야한다
 		String query = "SELECT * FROM post WHERE POST_NO = ?";	//postNo에 해당하는 post SELECT
 		conn = SQLConnection.getConnection();
 		Post post = new Post();
@@ -137,12 +137,10 @@ public class PostDao {
 		try {
 			pstmt = conn.prepareStatement(update);
 			pstmt.setInt(1, postNo);
-			pstmt.executeUpdate();
+			pstmt.executeUpdate();	//update 쿼리 실행
 			
 			pstmt = conn.prepareStatement(query);
-			
 			pstmt.setInt(1, postNo);
-			
 			rs = pstmt.executeQuery();	//parameter로 받은 postNo에 해당하는 post데이터 rs에 반환
 			if(rs.first()) {	//해당하는 rs가 존재하면 반환할 post객체에 세팅
 				post.setPostNo(rs.getInt("POST_NO"));
@@ -175,11 +173,11 @@ public class PostDao {
 			pstmt = conn.prepareStatement(query);
 			
 			pstmt.setInt(1, param.getPostNo());
-			if(student.getManager()==0) {
+			if(student.getManager()==0) {		//작성자가 아닌사람이 URL로 삭제하려는 경우, student세션의 SID와 POST_NO가 일치하지 않는다
 				pstmt.setInt(2, student.getSid());
 			}
 			
-			confirm = pstmt.executeUpdate();
+			confirm = pstmt.executeUpdate();	//위의 경우에는 confirm이 1을 반환하지 않는다.
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -204,8 +202,8 @@ public class PostDao {
 			pstmt = conn.prepareStatement(query);
 			
 			pstmt.setInt(1, param.getPostNo());
-			if(student.getManager()==0) {
-				pstmt.setInt(2, param.getSid());
+			if(student.getManager()==0) {   //로그인 사용자의 student객체(<작성자-로그인 사용자>와구별하기 위해 받아온 객체)의 sid
+				pstmt.setInt(2, student.getSid());
 			}
 			
 			rs = pstmt.executeQuery();

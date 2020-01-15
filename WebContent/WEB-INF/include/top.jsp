@@ -1,10 +1,10 @@
 <%@page import="Vo.Student"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-	Student student = (Student)session.getAttribute("student");
+	Student student = (Student)session.getAttribute("student");	//세션에서 꺼내와서 student객체에 담아준다
 	String name = null;
 	if(student.getManager()==1){
-		name = "관리자";
+		name = "관리자";	//Manager일경우 StudentDAO의 Login메소드의 student세터를 통해 1의값 세팅
 	}else {
 		name = student.getName();
 	}

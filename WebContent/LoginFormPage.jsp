@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-	String id = (String)session.getAttribute("memory");
+	String id = (String)session.getAttribute("memory");		//아이디 기억하기를 체크했다면 반환되는 값이 존재(로그아웃 했을때 사용)
 %>
 <!DOCTYPE html>
 <html>

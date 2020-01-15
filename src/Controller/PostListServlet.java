@@ -22,10 +22,10 @@ public class PostListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		StudentDao student = new StudentDao();
 		
-		String writer = request.getParameter("writer");
+		String writer = request.getParameter("writer");		//작성자로 검색하기 위해 받는 파라미터
 		
 		Post param = new Post();
-		if(writer!=null) {
+		if(writer!=null) {									//작성자 검색으로 서블릿을 호출시키면 실행되는 코드
 			int sid = student.find(writer);
 			param.setSid(sid);
 		}
@@ -33,7 +33,7 @@ public class PostListServlet extends HttpServlet {
 		PostDao post = new PostDao(request, response);
 		List<Post> result = new ArrayList<>();
 
-		result = post.select(param);
+		result = post.select(param);						//PostDAO의 목록 뽑아내는 메소드
 		
 		if(result!=null) {	//게시글이 존재하면 해당하는 리스트를 request영역에 저장
 			request.setAttribute("PostList", result);
